@@ -69,7 +69,7 @@ refresh_pattern {{ rp.case_sensitive }} {{ rp.regex }} {{ rp.min }} {{ rp.percen
 {% endif %}
 
 {% if squid3_outgoing_adress %}
-tcp_outgoing_address {{ squid3_outgoing_address }}
+tcp_outgoing_address {{ squid3_outgoing_adress }}
 {% endif %}
 
 {% if squid3_visible_hostname %}
