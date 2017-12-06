@@ -4,7 +4,7 @@ galaxy_info:
   company: deployeveryday.com
 
   license: MIT
-  
+
   min_ansible_version: 1.8
 
   platforms:
@@ -17,7 +17,7 @@ galaxy_info:
   - name: Debian
     versions:
     - all
-  
+
   galaxy_tags:
     - system
     - proxy
