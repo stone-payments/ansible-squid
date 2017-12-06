@@ -1,6 +1,6 @@
 ---
-# To add localnets, sslports, safeports, acls, httpa_ccess and refresh_patterns
-# to specif hosts, use host_vars/ or group_vars with this variables:
+# To add localnets, sslports, safeports, acls, http_access and refresh_patterns
+# to specific hosts, use host_vars/ or group_vars with this variables:
 # squid3_custom_localnets
 # squid3_custom_sslports
 # squid3_custom_safeports
