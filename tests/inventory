@@ -1,3 +1,0 @@
-[all]
-ubuntu ansible_ssh_host=192.168.52.10 ansible_ssh_port=22 ansible_ssh_user=vagrant host_key_checking=False ansible_ssh_private_key_file=.vagrant/machines/ubuntu/virtualbox/private_key
-centos ansible_ssh_host=192.168.52.11 ansible_ssh_port=22 ansible_ssh_user=vagrant host_key_checking=False ansible_ssh_private_key_file=.vagrant/machines/centos/virtualbox/private_key
