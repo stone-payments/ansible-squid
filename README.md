@@ -1,7 +1,7 @@
-squid3
+squid
 =========
 
-Ansible role to install and configure squid3 proxy/cache in RedHat/CentOS/Debian/Ubuntu.
+Ansible role to install and configure squid proxy/cache in RedHat/CentOS/Debian/Ubuntu.
 
 Requirements
 ------------
@@ -12,59 +12,62 @@ Role Variables
 --------------
 
 This role uses a mix of defaults and `host_vars/group_vars`.     
-The defaults are used to set the most common squid3 config, present by default in the package repository.     
+The defaults are used to set the most common squid config, present by default in the package repository.     
 The `host_vars/group_vars` are best suited to create custom ACLs and http_access sentences.
 
 ### Globals
 Variables listed in `defaults/main.yml`
 
-`squid3_localnets`     
+`squid_localnets`     
 List of internal subnets, used to create the default ACL named localnet.
 
-`squid3_sslports`     
+`squid_sslports`     
 List of ports authorized to used the CONNECT methhod, encrypted traffic.
 
-`squid3_safeports`     
+`squid_safeports`     
 List of ports authorized to use HTTP in plain text.
 
-`squid3_port`     
-Port that squid3 daemon runs.
+`squid_port`     
+Port that squid daemon runs.
 
-`squid3_outgoing_adress`     
+`squid_outgoing_adress`     
 If specified, tells which IP address to direct the traffic.
 
-`squid3_visible_hostname`
+`squid_visible_hostname`
 Visible proxy name. Appears in authentication dialog.
 
-`squid3_acls`     
+`squid_acls`     
 ACLs from default squid.conf. Can be used to create custom ACLs.
 
-`squid3_http_access`     
+`squid_http_access`     
 http_access directives from default squid.conf. Can be used to create custom http_access.
 
-`squid3_refresh_pattern`     
+`squid_refresh_pattern`     
 List of refresh_paterrn from defalt squid.conf. Can be used to create custom refresh_pattern.
 
 ### Custom
 Custom variables. Can be used in `defaults/main.yml`, but it was made to best if in `host_vars` and `group_vars`.
 
-`squid3_custom_localnets`     
+`squid_custom_localnets`     
 Custom localnets.
 
-`squid3_custom_sslports`     
+`squid_custom_sslports`     
 Custom SSL ports.
 
-`squid3_custom_safeports`     
+`squid_custom_safeports`     
 Custom HTTP ports.
 
-`squid3_custom_acls`     
+`squid_custom_acls`     
 Custom ACLs.
 
-`squid3_custom_http_access`     
+`squid_custom_http_access`     
 Custom http_access directives.
 
-`squid3_custom_refresh_pattern`     
+`squid_custom_refresh_pattern`     
 Custom refresh_pattern directives.
+
+`squid_custom_whitelist`     
+Custom whitelist groups made of a name, **N** hosts and **N** domains.
 
 Dependencies
 ------------
