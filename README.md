@@ -68,7 +68,16 @@ Custom refresh_pattern directives.
 
 `squid_custom_whitelist`     
 Custom whitelist groups made of a name, **N** hosts and **N** domains.
-
+* example:
+    ```yml
+    squid_custom_whitelist:
+      - name: access
+        src:
+          - 172.17.0.1
+        dest:
+          - .google.com
+          - .google.com.br
+    ```
 Dependencies
 ------------
 
@@ -77,10 +86,34 @@ None.
 Example Playbook
 ----------------
 
-This role comes with a Vagrant file. Just fire a `vagrant up` for testing.     
-Once the environemnt is up, just run `vagrant provision` or `ansible-playbook -i tests/inventory tests/test.yml`.     
-As the date of this commit, the parameter `host_key_checking=False` it's not working. If some SSH connection error occurs, try to execute `export ANSIBLE_HOST_KEY_CHECKING=False`.
-You can use the tests/vars.yml as a playground to test the variables.
+This role was tested with :
+* `Molecule` 2.2.1
+* `Docker` 18.03.0-ce
+* `Ansible` 2.5.0
+
+In order to run the tests just execute: 
+``` 
+molecule test --all
+```
+
+The are 2 scenarios: 
+* `default` - where only the default config are used;
+* `custom_whitelist` - where it is used the option to whitelist groups made of a name, **N** hosts and **N** domains. 
+
+The scenario tested by default is `default`, if you want to test the `custom_whitelist` scenario, just execute the following command:
+```
+molecule test -s custom_whitelist
+```
+The command `molecule test` will create the containers, apply the role, execute the tests and in the end destroy everything. If you want to preserve the containers to access it you will need to execute the following commands:
+```sh
+molecule create  # create the enviroment 
+molecule converge  # apply the role
+molecule login  # login in the container
+```
+Whenever you are done with the tests you can clean the environment running the command:
+```
+molecule destroy --all
+```
 
 License
 -------
@@ -90,6 +123,5 @@ MIT
 Author Information
 ------------------
 
-Jonatas Baldin      
-<mailto:jonatas.baldin@gmail.com>      
-http://deployeveryday.com
+Igor Blackman     
+<mailto:iblackman@stone.com.br>
