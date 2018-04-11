@@ -1,7 +1,7 @@
-squid3
+squid
 =========
 
-Ansible role to install and configure squid3 proxy/cache in RedHat/CentOS/Debian/Ubuntu.
+Ansible role to install and configure squid proxy/cache in RedHat/CentOS/Debian/Ubuntu.
 
 Requirements
 ------------
@@ -12,60 +12,72 @@ Role Variables
 --------------
 
 This role uses a mix of defaults and `host_vars/group_vars`.     
-The defaults are used to set the most common squid3 config, present by default in the package repository.     
+The defaults are used to set the most common squid config, present by default in the package repository.     
 The `host_vars/group_vars` are best suited to create custom ACLs and http_access sentences.
 
 ### Globals
 Variables listed in `defaults/main.yml`
 
-`squid3_localnets`     
+`squid_localnets`     
 List of internal subnets, used to create the default ACL named localnet.
 
-`squid3_sslports`     
+`squid_sslports`     
 List of ports authorized to used the CONNECT methhod, encrypted traffic.
 
-`squid3_safeports`     
+`squid_safeports`     
 List of ports authorized to use HTTP in plain text.
 
-`squid3_port`     
-Port that squid3 daemon runs.
+`squid_port`     
+Port that squid daemon runs.
 
-`squid3_outgoing_adress`     
+`squid_outgoing_adress`     
 If specified, tells which IP address to direct the traffic.
 
-`squid3_visible_hostname`
+`squid_visible_hostname`
 Visible proxy name. Appears in authentication dialog.
 
-`squid3_acls`     
+`squid_acls`     
 ACLs from default squid.conf. Can be used to create custom ACLs.
 
-`squid3_http_access`     
+`squid_http_access`     
 http_access directives from default squid.conf. Can be used to create custom http_access.
 
-`squid3_refresh_pattern`     
+`squid_refresh_pattern`     
 List of refresh_paterrn from defalt squid.conf. Can be used to create custom refresh_pattern.
 
 ### Custom
 Custom variables. Can be used in `defaults/main.yml`, but it was made to best if in `host_vars` and `group_vars`.
 
-`squid3_custom_localnets`     
+`squid_custom_localnets`     
 Custom localnets.
 
-`squid3_custom_sslports`     
+`squid_custom_sslports`     
 Custom SSL ports.
 
-`squid3_custom_safeports`     
+`squid_custom_safeports`     
 Custom HTTP ports.
 
-`squid3_custom_acls`     
+`squid_custom_acls`     
 Custom ACLs.
 
-`squid3_custom_http_access`     
+`squid_custom_http_access`     
 Custom http_access directives.
 
-`squid3_custom_refresh_pattern`     
+`squid_custom_refresh_pattern`     
 Custom refresh_pattern directives.
 
+`squid_custom_whitelist`     
+Custom whitelist groups made of a name, **N** hosts and **N** domains.
+* example:
+    ```yml
+    squid_custom_whitelist:
+      - name: access
+        src:
+          - 172.17.0.1
+        dest:
+          - .google.com
+          - .google.com.br
+    ```
 Dependencies
 ------------
 
@@ -74,10 +86,34 @@ None.
 Example Playbook
 ----------------
 
-This role comes with a Vagrant file. Just fire a `vagrant up` for testing.     
-Once the environemnt is up, just run `vagrant provision` or `ansible-playbook -i tests/inventory tests/test.yml`.     
-As the date of this commit, the parameter `host_key_checking=False` it's not working. If some SSH connection error occurs, try to execute `export ANSIBLE_HOST_KEY_CHECKING=False`.
-You can use the tests/vars.yml as a playground to test the variables.
+This role was tested with :
+* `Molecule` 2.2.1
+* `Docker` 18.03.0-ce
+* `Ansible` 2.5.0
+
+In order to run the tests just execute: 
+``` 
+molecule test --all
+```
+
+The are 2 scenarios: 
+* `default` - where only the default config are used;
+* `custom_whitelist` - where it is used the option to whitelist groups made of a name, **N** hosts and **N** domains. 
+
+The scenario tested by default is `default`, if you want to test the `custom_whitelist` scenario, just execute the following command:
+```
+molecule test -s custom_whitelist
+```
+The command `molecule test` will create the containers, apply the role, execute the tests and in the end destroy everything. If you want to preserve the containers to access it you will need to execute the following commands:
+```sh
+molecule create  # create the enviroment 
+molecule converge  # apply the role
+molecule login  # login in the container
+```
+Whenever you are done with the tests you can clean the environment running the command:
+```
+molecule destroy --all
+```
 
 License
 -------
@@ -87,6 +123,5 @@ MIT
 Author Information
 ------------------
 
-Jonatas Baldin      
-<mailto:jonatas.baldin@gmail.com>      
-http://deployeveryday.com
+Igor Blackman     
+<mailto:iblackman@stone.com.br>

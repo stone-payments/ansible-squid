@@ -1,0 +1,18 @@
+squid_custom_whitelist:
+  - name: access
+    src:
+      - 172.16.31.65
+      - 172.17.0.1
+      - 172.17.0.4
+    dest:
+      - .google.com
+      - .google.com.br
+      - access.redhat.com
+      - archive.linux.duke.edu
+      - ca.mirror.babylon.network
+      - cdn.redhat.com
+      - dl.fedoraproject.org
+      - epel.mirror.constant.com
+      - fedora-epel.mirrors.tds.net
+      - fedora.mirrors.pair.com
+      - fedora.westmancom.com
