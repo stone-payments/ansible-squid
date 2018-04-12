@@ -1,1 +1,17 @@
 .vagrant
+*.egg-info/
+*.py[cod]
+*.retry
+.bundle/
+.cache/
+.coverage
+.coverage.*
+.eggs/
+.tox/
+.molecule
+.vagrant/
+doc/build/
+htmlcov/
+pytestdebug.log
+ubuntu-xenial-16.04-cloudimg-console.log
+__pycache__
