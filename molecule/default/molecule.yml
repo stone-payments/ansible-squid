@@ -8,8 +8,11 @@ lint:
 platforms:
   - name: centos7.4
     image: centos:7.4.1708
-    command: /usr/sbin/init
-    privileged: true
+    command: /sbin/init
+    capabilities:
+      - SYS_ADMIN
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
 provisioner:
   name: ansible
   lint:
