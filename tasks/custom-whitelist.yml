@@ -1,0 +1,34 @@
+---
+- name: populate squid_custom_acls with src
+  set_fact:
+    squid_custom_acls: "{{ squid_custom_acls|default([]) +[{'name': item.name+'_src', 'type': 'src', 'arg': '\"/etc/squid/'+item.name+'_src\"'}] }}"
+  with_items: "{{ squid_custom_whitelist }}"
+
+- name: populate squid_custom_acls with domain
+  set_fact:
+    squid_custom_acls: "{{ squid_custom_acls|default([]) +[{'name': item.name+'_dstdomain', 'type': 'dstdomain', 'arg': '\"/etc/squid/'+item.name+'_dstdomain\"'}] }}"
+  with_items: "{{ squid_custom_whitelist }}"
+
+- name: populate squid_custom_http_access
+  set_fact:
+    squid_custom_http_access: "{{ squid_custom_http_access|default([]) +[{'aclname': item.name+'_dstdomain '+item.name+'_src', 'perm': 'allow'}] }}"
+  with_items: "{{ squid_custom_whitelist }}"
+
+- name: make sure /etc/squid dir exists
+  file:
+    path: /etc/squid
+    state: directory
+
+- name: create src files
+  template:
+    src: src_file.j2
+    dest: "/etc/squid/{{ item.name }}_src"
+  with_items: "{{ squid_custom_whitelist }}"
+  notify: restart squid
+
+- name: create domain files
+  template:
+    src: dest_file.j2
+    dest: "/etc/squid/{{ item.name }}_dstdomain"
+  with_items: "{{ squid_custom_whitelist }}"
+  notify: restart squid
