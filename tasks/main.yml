@@ -3,9 +3,9 @@
   include_vars: "{{ ansible_os_family }}.yml"
 
 # Install RedHat-like
-- include: squid3-RedHat.yml
+- include: squid-RedHat.yml
   when: ansible_os_family == 'RedHat'
 
 # Install Debian-like
-- include: squid3-Debian.yml
+- include: squid-Debian.yml
   when: ansible_os_family == 'Debian'
