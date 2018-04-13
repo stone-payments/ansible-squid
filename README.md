@@ -66,6 +66,19 @@ Custom http_access directives.
 `squid_custom_refresh_pattern`     
 Custom refresh_pattern directives.
 
+`squid_custom_whitelist`     
+Custom whitelist groups made of a name, **N** hosts and **N** domains.
+* example:
+    ```yml
+    squid_custom_whitelist:
+      - name: access
+        src:
+          - 172.17.0.1
+        dest:
+          - .google.com
+          - .google.com.br
+    ```
+
 Dependencies
 ------------
 
@@ -74,25 +87,83 @@ None.
 Example Playbook
 ----------------
 
+
+* To run the role with the default values just do:
+  ```yml
+  ---
+  - name: Default playbook
+    hosts: all
+    become: 50
+    roles:
+      - role: stone-payments.squid
+  ```
+
+* If you want to create n-to-n whitelist groups:
+  ```yml
+  ---
+  - name: Playbook creating N to N whitelist
+    hosts: all
+    become: true
+    tasks:
+      - name: include custom whitelist
+        include_vars:
+          file: ../files/custom_whitelist.yml
+      - name: execute role
+        include_role:
+          name: stone-payments.squid
+
+  ```
+
+  The file passed should have a list of groups with `name`, a list of `src` and a list of `dest` the following format:
+  ```yml
+  squid_custom_whitelist:
+    - name: access
+      src: # list of IPs that will be allowed to access the list of domains bellow
+        - 172.17.0.1
+      dest: # list of domains that will be allowed to the IPs from above
+        - .google.com
+        - .google.com.br
+  ```
+  or you can add the variable `squid_custom_whitelist` in the `host_vars/group_vars`, remember to follow the same format.
+
 This role was tested with :
 * `Molecule` 2.2.1
 * `Docker` 18.03.0-ce
-* `Ansible` 2.5.0
+* `Ansible` 2.5.0S
+* `Vagrant` 2.0.2
+* `Virtualbox` 5.1.34
+
+To test the role with `Molecule` using `Vagrant` you will need to:
+```
+pip install python-vagrant
+```
+
+To test the role with `Molecule` using `Docker` you will need to:
+```
+pip install docker-py
+```
 
 In order to run the tests just execute: 
 ``` 
-molecule test
+molecule test --all
 ```
 
+The are 2 scenarios: 
+* `default` - where it uses docker for testing;
+* `vagrant` - where it uses vagrant with virtualbox for testing.
+
+The scenario tested by default is `default`, if you want to test the other scenario, for example the `vagrant` scenario, just execute the following command passing the scenario's name:
+```
+molecule test -s vagrant
+```
 The command `molecule test` will create the containers, apply the role, execute the tests and in the end destroy everything. If you want to preserve the containers to access it you will need to execute the following commands:
 ```sh
-molecule create  # create the enviroment 
-molecule converge  # apply the role
+molecule converge  # create and apply the role
 molecule login  # login in the container
 ```
 Whenever you are done with the tests you can clean the environment running the command:
 ```
-molecule destroy
+molecule destroy --all
 ```
 
 License
