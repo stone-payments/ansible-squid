@@ -17,9 +17,12 @@ provisioner:
   name: ansible
   lint:
     name: ansible-lint
+  playbooks:
+    converge: ../resources/playbooks/playbook.yml
 scenario:
   name: default
 verifier:
   name: testinfra
+  directory: ../resources/tests/
   lint:
     name: flake8
