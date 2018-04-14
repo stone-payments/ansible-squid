@@ -1,0 +1,11 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+  tasks:
+    - name: include custom whitelist
+      include_vars:
+        file: ../files/custom_whitelist.yml
+    - name: execute role
+      include_role:
+        name: stone-payments.squid
