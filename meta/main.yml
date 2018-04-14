@@ -1,22 +1,24 @@
 galaxy_info:
-  author: Jonatas Baldin
-  description: Squid3 for RedHat/CentOS/Debian/Ubuntu
-  company: deployeveryday.com
+  author: Igor Blackman
+  description: Squid for RedHat/CentOS/Debian/Ubuntu
+  company: Stone Payments
 
   license: MIT
 
-  min_ansible_version: 1.8
+  min_ansible_version: 2.5
+  molecule_version: 2.2.1
+  docker_version: 18.03.0-ce
 
   platforms:
-  - name: EL
-    versions:
-    - all
-  - name: Ubuntu
-    versions:
-    - all
-  - name: Debian
-    versions:
-    - all
+    - name: EL
+      versions:
+        - all
+    - name: Ubuntu
+      versions:
+        - all
+    - name: Debian
+      versions:
+        - all
 
   galaxy_tags:
     - system

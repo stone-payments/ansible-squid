@@ -1,0 +1,25 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: vagrant
+  provider:
+    name: virtualbox
+lint:
+  name: yamllint
+platforms:
+  - name: centos7.4
+    box: bento/centos-7.4
+provisioner:
+  name: ansible
+  lint:
+    name: ansible-lint
+  playbooks:
+    converge: ../resources/playbooks/playbook.yml
+scenario:
+  name: vagrant
+verifier:
+  name: testinfra
+  directory: ../resources/tests/
+  lint:
+    name: flake8

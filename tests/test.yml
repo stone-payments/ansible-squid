@@ -1,7 +1,0 @@
----
-- hosts: all
-  become: yes
-  vars_files:
-    - vars.yml
-  roles:
-    - jonatasbaldin.squid3
