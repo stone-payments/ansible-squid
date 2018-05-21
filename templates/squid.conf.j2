@@ -54,9 +54,13 @@ http_port {{ squid_port }}
 cache_dir {{ squid_diskcache }}
 {% endif %}
 
-{% if squid_coredumpdir %}
-coredump_dir {{ squid_coredumpdir }}
-{% endif %} 
+{% if squid_custom_configs is defined %}
+{% for config in squid_custom_configs %}
+{{ config }}
+{% endfor %}
+{% endif %}
+
+coredump_dir /dev/null
 
 {% for rp in squid_refresh_pattern %}
 refresh_pattern {{ rp.case_sensitive }} {{ rp.regex }} {{ rp.min }} {{ rp.percent }} {{ rp.max }} {{ rp.opts }}

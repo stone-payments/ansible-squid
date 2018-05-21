@@ -78,6 +78,8 @@ Custom whitelist groups made of a name, **N** hosts and **N** domains.
           - .google.com
           - .google.com.br
     ```
+`squid_custom_configs`     
+Custom configs of any kind.
 
 Dependencies
 ------------
@@ -126,10 +128,29 @@ Example Playbook
   ```
   or you can add the variable `squid_custom_whitelist` in the `host_vars/group_vars`, remember to follow the same format.
 
+* If you want to pass a config that isn't covered from the other variables, pass `squid_custom_configs`:
+  ```yml
+  ---
+  - name: Playbook creating N to N whitelist
+    hosts: all
+    become: true
+    tasks:
+      - name: include custom whitelist
+        include_vars:
+          file: ../files/custom_whitelist.yml
+      - name: execute role
+        include_role:
+          name: stone-payments.squid
+        vars:
+          squid_custom_configs:
+            - "cache_mem 128 MB"
+
+  ```
+
 This role was tested with :
 * `Molecule` 2.2.1
 * `Docker` 18.03.0-ce
-* `Ansible` 2.5.0S
+* `Ansible` 2.5.0
 * `Vagrant` 2.0.2
 * `Virtualbox` 5.1.34
 

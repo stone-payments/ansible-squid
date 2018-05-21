@@ -7,6 +7,8 @@
 # squid_custom_acls
 # squid_custom_http_access
 # squid_custom_refresh_pattern
+# squid_custom_whitelist
+# squid_custom_configs
 
 # local subnets
 squid_localnets:

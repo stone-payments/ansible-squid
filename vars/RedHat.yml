@@ -3,8 +3,7 @@ squid_package: squid
 squid_daemon: squid
 squid_path: /etc/squid
 squid_conf: /etc/squid/squid.conf
+squid_cache_dir: /var/spool/squid
 
-squid_diskcache: 'ufs /var/spool/squid 100 16 256'
+squid_diskcache: 'ufs {{ squid_cache_dir }} 100 16 256'
 #squid_diskcache: '' # Disables cache
-
-squid_coredumpdir: '/var/spool/squid'

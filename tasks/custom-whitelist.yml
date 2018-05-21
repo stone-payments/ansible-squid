@@ -9,9 +9,16 @@
     squid_custom_acls: "{{ squid_custom_acls|default([]) +[{'name': item.name+'_dstdomain', 'type': 'dstdomain', 'arg': '\"/etc/squid/'+item.name+'_dstdomain\"'}] }}"
   with_items: "{{ squid_custom_whitelist }}"
 
+- name: populate squid_custom_http_access with dest empty
+  set_fact:
+    squid_custom_http_access: "{{ squid_custom_http_access|default([]) +[{'aclname': item.name+'_src', 'perm': 'allow'}] }}"
+  when: item.dest is not defined or item.dest|length == 0 or item.dest.0 == None
+  with_items: "{{ squid_custom_whitelist }}"
+
 - name: populate squid_custom_http_access
   set_fact:
     squid_custom_http_access: "{{ squid_custom_http_access|default([]) +[{'aclname': item.name+'_dstdomain '+item.name+'_src', 'perm': 'allow'}] }}"
+  when: item.dest is defined and item.dest|length > 0 and item.dest.0 != None
   with_items: "{{ squid_custom_whitelist }}"
 
 - name: make sure /etc/squid dir exists
@@ -30,5 +37,6 @@
   template:
     src: dest_file.j2
     dest: "/etc/squid/{{ item.name }}_dstdomain"
+  when: item.dest is defined and item.dest|length > 0 and item.dest.0 != None
   with_items: "{{ squid_custom_whitelist }}"
   notify: restart squid
