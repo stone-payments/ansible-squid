@@ -38,6 +38,12 @@ acl {{ acl.name }} {{ acl.type }} {{ acl.arg }}
 {% endfor %}
 {% endif %}
 
+{% if squid_custom_configs is defined %}
+{% for config in squid_custom_configs %}
+{{ config }}
+{% endfor %}
+{% endif %}
+
 {% if squid_custom_http_access is defined %}
 {% for http_access in squid_custom_http_access %}
 http_access {{ http_access.perm }} {{ http_access.aclname }}
@@ -52,12 +58,6 @@ http_port {{ squid_port }}
 
 {% if squid_diskcache %}
 cache_dir {{ squid_diskcache }}
-{% endif %}
-
-{% if squid_custom_configs is defined %}
-{% for config in squid_custom_configs %}
-{{ config }}
-{% endfor %}
 {% endif %}
 
 coredump_dir /dev/null
