@@ -1,7 +1,0 @@
----
-- name: install squid
-  package: name={{ squid_package }} state=present update_cache=yes
-
-- name: copy template
-  template: src=squid.conf.j2 dest={{ squid_conf }} owner=root group=root mode=0644
-  notify: restart squid
