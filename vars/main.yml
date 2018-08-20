@@ -1,2 +1,3 @@
 ---
 # vars file for squid
+squid_diskcache: 'ufs {{ squid_cache_dir }} 100 16 256'

@@ -6,10 +6,9 @@
   include: custom-whitelist.yml
   when: squid_custom_whitelist is defined and squid_custom_whitelist
 
-# Install RedHat-like
-- include: squid-RedHat.yml
-  when: ansible_os_family == 'RedHat'
+- name: install squid
+  package: name={{ squid_package }} state=present update_cache=yes
 
-# Install Debian-like
-- include: squid-Debian.yml
-  when: ansible_os_family == 'Debian'
+- name: copy template
+  template: src=squid.conf.j2 dest={{ squid_conf }} owner=root group=root mode=0644
+  notify: restart squid
