@@ -1,81 +1,81 @@
-{% for localnet in squid_localnets %}
-acl localnet src {{ localnet }}
+{% for localnet in squid_localnets -%}
+    acl localnet src {{ localnet }}
 {% endfor %}
 
-{% if squid_custom_localnets is defined %}
+{% if squid_custom_localnets is defined -%}
 {% for localnet in squid_custom_localnets %}
-acl localnet src {{ localnet }}
+    acl localnet src {{ localnet }}
 {% endfor %}
 {% endif %}
 
-{% for sslports in squid_sslports %}
-acl SSL_ports port {{ sslports }}
+{% for sslports in squid_sslports -%}
+    acl SSL_ports port {{ sslports }}
 {% endfor %}
 
-{% if squid_custom_sslports is defined %}
+{% if squid_custom_sslports is defined -%}
 {% for sslports in squid_custom_sslports %}
-acl SSL_ports port {{ sslports }}
+    acl SSL_ports port {{ sslports }}
 {% endfor %}
 {% endif %}
 
-{% for safeports in squid_safeports %}
-acl Safe_ports port {{ safeports }}
+{% for safeports in squid_safeports -%}
+    acl Safe_ports port {{ safeports }}
 {% endfor %}
 
-{% if squid_custom_safeports is defined %}
-{% for safeports in squid_custom_safeports %}
-acl Safe_ports port {{ safeports }}
-{% endfor %}
-{% endif %}
-
-{% for acl in squid_acls %}
-acl {{ acl.name }} {{ acl.type }} {{ acl.arg }}
-{% endfor %}
-
-{% if squid_custom_acls is defined %}
-{% for acl in squid_custom_acls %}
-acl {{ acl.name }} {{ acl.type }} {{ acl.arg }}
+{% if squid_custom_safeports is defined -%}
+{% for safeports in squid_custom_safeports -%}
+    acl Safe_ports port {{ safeports }}
 {% endfor %}
 {% endif %}
 
-{% if squid_custom_configs is defined %}
-{% for config in squid_custom_configs %}
-{{ config }}
+{% for acl in squid_acls -%}
+    acl {{ acl.name }} {{ acl.type }} {{ acl.arg }}
+{% endfor %}
+
+{% if squid_custom_acls is defined -%}
+{% for acl in squid_custom_acls -%}
+    acl {{ acl.name }} {{ acl.type }} {{ acl.arg }}
 {% endfor %}
 {% endif %}
 
-{% if squid_custom_http_access is defined %}
-{% for http_access in squid_custom_http_access %}
-http_access {{ http_access.perm }} {{ http_access.aclname }}
+{% if squid_custom_configs is defined -%}
+{% for config in squid_custom_configs -%}
+    {{ config }}
 {% endfor %}
 {% endif %}
 
-{% for http_access in squid_http_access %}
-http_access {{ http_access.perm }} {{ http_access.aclname }}
+{% if squid_custom_http_access is defined -%}
+{% for http_access in squid_custom_http_access -%}
+    http_access {{ http_access.perm }} {{ http_access.aclname }}
+{% endfor %}
+{% endif %}
+
+{% for http_access in squid_http_access -%}
+    http_access {{ http_access.perm }} {{ http_access.aclname }}
 {% endfor %}
 
 http_port {{ squid_port }}
 
-{% if squid_diskcache %}
-cache_dir {{ squid_diskcache }}
+{% if squid_diskcache -%}
+    cache_dir {{ squid_diskcache }}
 {% endif %}
 
 coredump_dir /dev/null
 
-{% for rp in squid_refresh_pattern %}
-refresh_pattern {{ rp.case_sensitive }} {{ rp.regex }} {{ rp.min }} {{ rp.percent }} {{ rp.max }} {{ rp.opts }}
+{% for rp in squid_refresh_pattern -%}
+    refresh_pattern {{ rp.case_sensitive }} {{ rp.regex }} {{ rp.min }} {{ rp.percent }} {{ rp.max }} {{ rp.opts }}
 {% endfor %}
 
-{% if squid_custom_refresh_pattern is defined %}
-{% for rp in squid_custom_refresh_pattern %}
-refresh_pattern {{ rp.case_sensitive }} {{ rp.regex }} {{ rp.min }} {{ rp.percent }} {{ rp.max }} {{ rp.opts }}
+{% if squid_custom_refresh_pattern is defined -%}
+{% for rp in squid_custom_refresh_pattern -%}
+    refresh_pattern {{ rp.case_sensitive }} {{ rp.regex }} {{ rp.min }} {{ rp.percent }} {{ rp.max }} {{ rp.opts }}
 {% endfor %}
 {% endif %}
 
-{% if squid_outgoing_adress %}
-tcp_outgoing_address {{ squid_outgoing_adress }}
+{% if squid_outgoing_adress -%}
+    tcp_outgoing_address {{ squid_outgoing_adress }}
 {% endif %}
 
-{% if squid_visible_hostname %}
-visible_hostname {{ squid_visible_hostname }}
+{% if squid_visible_hostname -%}
+    visible_hostname {{ squid_visible_hostname }}
 {% endif %}
