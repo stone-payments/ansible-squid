@@ -1,3 +1,3 @@
 ---
 # vars file for squid
-squid_custom_dir: /etc/squid/custom
+squid_acl_dir: /etc/squid/acl_files
