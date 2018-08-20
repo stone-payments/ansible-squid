@@ -1,12 +1,12 @@
 ---
 - name: populate squid_custom_acls with src
   set_fact:
-    squid_custom_acls: "{{ squid_custom_acls|default([]) +[{'name': item.name+'_src', 'type': 'src', 'arg': '\"/etc/squid/'+item.name+'_src\"'}] }}"
+    squid_custom_acls: "{{ squid_custom_acls|default([]) +[{'name': item.name+'_src', 'type': 'src', 'arg': '\"'+squid_acl_dir+'/'+item.name+'_src\"'}] }}"
   with_items: "{{ squid_custom_whitelist }}"
 
 - name: populate squid_custom_acls with domain
   set_fact:
-    squid_custom_acls: "{{ squid_custom_acls|default([]) +[{'name': item.name+'_dstdomain', 'type': 'dstdomain', 'arg': '\"/etc/squid/'+item.name+'_dstdomain\"'}] }}"
+    squid_custom_acls: "{{ squid_custom_acls|default([]) +[{'name': item.name+'_dstdomain', 'type': 'dstdomain', 'arg': '\"'+squid_acl_dir+'/'+item.name+'_dstdomain\"'}] }}"
   with_items: "{{ squid_custom_whitelist }}"
 
 - name: populate squid_custom_http_access with dest empty
@@ -21,22 +21,22 @@
   when: item.dest is defined and item.dest|length > 0 and item.dest.0 != None
   with_items: "{{ squid_custom_whitelist }}"
 
-- name: make sure /etc/squid dir exists
+- name: make sure {{ squid_acl_dir }} dir exists
   file:
-    path: /etc/squid
+    path: "{{ squid_acl_dir }}"
     state: directory
 
 - name: create src files
   template:
     src: src_file.j2
-    dest: "/etc/squid/{{ item.name }}_src"
+    dest: "{{ squid_acl_dir }}/{{ item.name }}_src"
   with_items: "{{ squid_custom_whitelist }}"
   notify: restart squid
 
 - name: create domain files
   template:
     src: dest_file.j2
-    dest: "/etc/squid/{{ item.name }}_dstdomain"
+    dest: "{{ squid_acl_dir }}/{{ item.name }}_dstdomain"
   when: item.dest is defined and item.dest|length > 0 and item.dest.0 != None
   with_items: "{{ squid_custom_whitelist }}"
   notify: restart squid
